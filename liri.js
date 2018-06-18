@@ -51,9 +51,25 @@ function myTweets() {
 
 
 function songInfo(){
-    console.log("Song info for " + option);
+    console.log("\nSpotify Search");
+    console.log("==============\n");
+    console.log(`Searching for: \"${option}\"\n`);
 
     var spotify = new Spotify(keys.spotify);
+
+    var strict = "\"" + option + "\"";   // if search keywords are surrounded by double quotations, Spotify will search for them in the order they appear
+
+    spotify.search({type: "track", query: strict, limit: "1"}, function(error, data) {
+        if (error) {
+            return console.log('Error occurred: ' + error);
+        }
+        else {
+            console.log(`Artist: ${data.tracks.items[0].artists[0].name}`);
+            console.log(`Name: ${data.tracks.items[0].name}`);
+            console.log(`Preview Link: ${data.tracks.items[0].preview_url}`);
+            console.log(`Album: ${data.tracks.items[0].album.name}\n`); 
+        }
+    });
 }
 
 
