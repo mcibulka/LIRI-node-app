@@ -3,13 +3,7 @@ require("dotenv").config();
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var keys = require("./keys.js");
-
 var request = require('request');
-
-
-var spotify = new Spotify(keys.spotify);
-var client = new Twitter(keys.twitter);
-
 
 var command = process.argv[2];
 var option = process.argv[3];
@@ -41,12 +35,25 @@ switch (command) {
 
 
 function myTweets() {
-    console.log("My tweets.");
+    console.log("\nTweets");
+    console.log("======\n")
+
+    var client = new Twitter(keys.twitter);
+
+    client.get('statuses/user_timeline', {count: "20"}, function(error, tweets) {
+        if(error) throw error;
+
+        for (tweet of tweets) {
+            console.log(`${tweet.text}\n${tweet.created_at}\n`);
+        }
+    });
 }
 
 
 function songInfo(){
     console.log("Song info for " + option);
+
+    var spotify = new Spotify(keys.spotify);
 }
 
 
