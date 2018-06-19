@@ -74,7 +74,27 @@ function songInfo(){
 
 
 function movieInfo(){
-    console.log("Movie info for " + option);
+    console.log("\nOMDB Search");
+    console.log("===========\n");
+
+    var movieQuery = option.replace(" ", "+");
+    // console.log(movieQuery);
+    var query = "http://www.omdbapi.com/?t=" + movieQuery + "&y=&plot=short&apikey=trilogy";
+
+    request(query, function(error, response, body) {
+
+    if (!error && response.statusCode === 200) {
+        console.log(`Title: ${JSON.parse(body).Title}`);
+        console.log(`Year: ${JSON.parse(body).Year}`);
+        console.log(`IMDB Rating: ${JSON.parse(body).imdbRating}`);
+        console.log(`Rotten Tomatoes: ${JSON.parse(body).Ratings[1]["Value"]}`);
+        console.log(`Country: ${JSON.parse(body).Country}`);
+        console.log(`Language: ${JSON.parse(body).Language}`);
+        console.log(`Plot: ${JSON.parse(body).Plot}`);
+        console.log(`Actors: ${JSON.parse(body).Actors}\n`);
+        // console.log(JSON.stringify(JSON.parse(body), null, 2));
+    }
+  });
 }
 
 
